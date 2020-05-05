@@ -15,6 +15,7 @@ Get all recipes from m3 and convert it to brewman recipe json format. If you hav
 
 ## Roadmap
 
+[ ] add recipe calculator
 [ ] merge m3d and m3c together
 [ ] Get more recipes and convert to brewman format
 
@@ -58,3 +59,7 @@ Then convert the Data like: "Pilsener" and "Pilsener Malz" zu "Pilsener" in mapp
 - Best Red X -> Red X
 
 find duplicates with elastic search and remove them: [elastic.co/de/blog/how-to-find-and-remove-duplicate-documents-in-elasticsearch](remove-duplicates-es)
+
+## Calculations
+
+[doc](http://www.mathe-fuer-hobbybrauer.de/bierrezepte/)

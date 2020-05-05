@@ -27,9 +27,9 @@ type recipeGlobal struct {
 	Sort              string  `json:"Sort" validate:"nonzero"`
 	Author            string  `json:"Author" validate:"nonzero"`
 	Clone             string  `json:"Clone" validate:"nonzero"`
-	DecisiveSeasoning float64 // Ausschlagwürze
+	DecisiveSeasoning float64 // Ausschlagwuerze
 	SudYield          float64 // Sudausbeute
-	OriginalWort      float64 //Stammwürze
+	OriginalWort      float64 //Stammwuerze
 	IBU               int
 	Color             int
 	Alcohol           float64
