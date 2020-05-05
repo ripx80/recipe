@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/ripx80/brewman/pkgs/recipe"
+	"github.com/ripx80/recipe"
 	"gopkg.in/alecthomas/kingpin.v2"
 )
 

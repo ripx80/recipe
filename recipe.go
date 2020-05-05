@@ -122,7 +122,7 @@ func (r *Recipe) Load(s string) (*Recipe, error) {
 	return r, nil
 }
 
-func (r Recipe) String() string {
+func (r *Recipe) String() string {
 	b, err := yaml.Marshal(r)
 	if err != nil {
 		return fmt.Sprintf("<error creating config string: %s>", err)
@@ -133,7 +133,7 @@ func (r Recipe) String() string {
 /*
 PrettyPrint return a pretty string
 */
-func (r Recipe) PrettyPrint() string {
+func (r *Recipe) PrettyPrint() string {
 	b, err := json.MarshalIndent(r, "", "   ")
 	if err != nil {
 		return fmt.Sprintf("<error creating config string: %s>", err)
@@ -144,21 +144,21 @@ func (r Recipe) PrettyPrint() string {
 /*
 Save a recipe to disk
 */
-func (r Recipe) Save(fn string) error {
+func (r *Recipe) Save(fn string) error {
 	return ioutil.WriteFile(fn, []byte(r.String()), 0644)
 }
 
 /*
 SavePretty save a pretty string to disk
 */
-func (r Recipe) SavePretty(fn string) error {
+func (r *Recipe) SavePretty(fn string) error {
 	return ioutil.WriteFile(fn, []byte(r.PrettyPrint()), 0644)
 }
 
 /*
 SavePrettyYaml saves a pretty yamle to disk. not working?
 */
-func (r Recipe) SavePrettyYaml(fn string) error {
+func (r *Recipe) SavePrettyYaml(fn string) error {
 	s, err := yaml.Marshal(r)
 	if err != nil {
 		return err
@@ -166,7 +166,7 @@ func (r Recipe) SavePrettyYaml(fn string) error {
 	return ioutil.WriteFile(fn, []byte(s), 0644)
 }
 
-func (r recipeGlobal) String() string {
+func (r *recipeGlobal) String() string {
 	b, err := yaml.Marshal(r)
 	if err != nil {
 		return fmt.Sprintf("<error creating config string: %s>", err)
@@ -174,7 +174,7 @@ func (r recipeGlobal) String() string {
 	return string(b)
 }
 
-func (r recipeGlobal) PrettyPrint() string {
+func (r *recipeGlobal) PrettyPrint() string {
 	b, err := json.MarshalIndent(r, "", "   ")
 	if err != nil {
 		return fmt.Sprintf("<error creating config string: %s>", err)
@@ -182,7 +182,7 @@ func (r recipeGlobal) PrettyPrint() string {
 	return string(b)
 }
 
-func (r recipeMash) String() string {
+func (r *recipeMash) String() string {
 	b, err := yaml.Marshal(r)
 	if err != nil {
 		return fmt.Sprintf("<error creating config string: %s>", err)
@@ -190,7 +190,7 @@ func (r recipeMash) String() string {
 	return string(b)
 }
 
-func (r recipeMash) PrettyPrint() string {
+func (r *recipeMash) PrettyPrint() string {
 	b, err := json.MarshalIndent(r, "", "   ")
 	if err != nil {
 		return fmt.Sprintf("<error creating config string: %s>", err)
@@ -198,7 +198,7 @@ func (r recipeMash) PrettyPrint() string {
 	return string(b)
 }
 
-func (r recipeWater) String() string {
+func (r *recipeWater) String() string {
 	b, err := yaml.Marshal(r)
 	if err != nil {
 		return fmt.Sprintf("<error creating config string: %s>", err)
@@ -206,7 +206,7 @@ func (r recipeWater) String() string {
 	return string(b)
 }
 
-func (r recipeWater) PrettyPrint() string {
+func (r *recipeWater) PrettyPrint() string {
 	b, err := json.MarshalIndent(r, "", "   ")
 	if err != nil {
 		return fmt.Sprintf("<error creating config string: %s>", err)
@@ -214,7 +214,7 @@ func (r recipeWater) PrettyPrint() string {
 	return string(b)
 }
 
-func (r recipeCook) String() string {
+func (r *recipeCook) String() string {
 	b, err := yaml.Marshal(r)
 	if err != nil {
 		return fmt.Sprintf("<error creating config string: %s>", err)
@@ -222,7 +222,7 @@ func (r recipeCook) String() string {
 	return string(b)
 }
 
-func (r recipeCook) PrettyPrint() string {
+func (r *recipeCook) PrettyPrint() string {
 	b, err := json.MarshalIndent(r, "", "   ")
 	if err != nil {
 		return fmt.Sprintf("<error creating config string: %s>", err)
