@@ -77,8 +77,8 @@ func (r *Recipe) Scale(water, yield float64) (*Recipe, error) {
 	waterSum := r.WaterSum()
 	waterSumNew := ScaleAmount(rScale.Global.DecisiveSeasoning, r.Global.DecisiveSeasoning, waterSum)
 	factor := waterSumNew / waterSum
-	rScale.Water.MainCast = ScaleAmount(r.Water.MainCast, waterSum, waterSumNew)
-	rScale.Water.Grouting = ScaleAmount(r.Water.Grouting, waterSum, waterSumNew)
+	rScale.Water.MainCast = math.Round(ScaleAmount(r.Water.MainCast, waterSum, waterSumNew)*100) / 100 //x.xx
+	rScale.Water.Grouting = math.Round(ScaleAmount(r.Water.Grouting, waterSum, waterSumNew)*100) / 100
 
 	// scale hops, creat scaleHop func for all
 	for k, v := range r.Cook.FontHops {

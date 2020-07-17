@@ -13,12 +13,6 @@ Converter for M3 recipes into brewman format.
 
 Get all recipes from m3 and convert it to brewman recipe json format. If you have downloaded recipes before they will be skipped if they are in the same dir.
 
-## Roadmap
-
-[ ] add recipe calculator
-[ ] merge m3d and m3c together
-[ ] Get more recipes and convert to brewman format
-
 ## Broken json
 
 - Parsing Amount error: Hopfen_VWH_1_Menge strconv.ParseFloat: parsing " 90": invalid syntax

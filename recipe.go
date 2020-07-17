@@ -125,7 +125,7 @@ func (r *Recipe) Load(s string) (*Recipe, error) {
 func (r *Recipe) String() string {
 	b, err := yaml.Marshal(r)
 	if err != nil {
-		return fmt.Sprintf("<error creating config string: %s>", err)
+		return fmt.Sprintf("creating config string: %s", err)
 	}
 	return string(b)
 }
@@ -136,7 +136,7 @@ PrettyPrint return a pretty string
 func (r *Recipe) PrettyPrint() string {
 	b, err := json.MarshalIndent(r, "", "   ")
 	if err != nil {
-		return fmt.Sprintf("<error creating config string: %s>", err)
+		return fmt.Sprintf("creating config string: %s", err)
 	}
 	return string(b)
 }
@@ -169,7 +169,7 @@ func (r *Recipe) SavePrettyYaml(fn string) error {
 func (r *recipeGlobal) String() string {
 	b, err := yaml.Marshal(r)
 	if err != nil {
-		return fmt.Sprintf("<error creating config string: %s>", err)
+		return fmt.Sprintf("creating config string: %s", err)
 	}
 	return string(b)
 }
@@ -177,7 +177,7 @@ func (r *recipeGlobal) String() string {
 func (r *recipeGlobal) PrettyPrint() string {
 	b, err := json.MarshalIndent(r, "", "   ")
 	if err != nil {
-		return fmt.Sprintf("<error creating config string: %s>", err)
+		return fmt.Sprintf("creating config string: %s", err)
 	}
 	return string(b)
 }
@@ -185,7 +185,7 @@ func (r *recipeGlobal) PrettyPrint() string {
 func (r *recipeMash) String() string {
 	b, err := yaml.Marshal(r)
 	if err != nil {
-		return fmt.Sprintf("<error creating config string: %s>", err)
+		return fmt.Sprintf("creating config string: %s", err)
 	}
 	return string(b)
 }
@@ -193,7 +193,7 @@ func (r *recipeMash) String() string {
 func (r *recipeMash) PrettyPrint() string {
 	b, err := json.MarshalIndent(r, "", "   ")
 	if err != nil {
-		return fmt.Sprintf("<error creating config string: %s>", err)
+		return fmt.Sprintf("creating config string: %s", err)
 	}
 	return string(b)
 }
@@ -201,7 +201,7 @@ func (r *recipeMash) PrettyPrint() string {
 func (r *recipeWater) String() string {
 	b, err := yaml.Marshal(r)
 	if err != nil {
-		return fmt.Sprintf("<error creating config string: %s>", err)
+		return fmt.Sprintf("creating config string: %s", err)
 	}
 	return string(b)
 }
@@ -209,7 +209,7 @@ func (r *recipeWater) String() string {
 func (r *recipeWater) PrettyPrint() string {
 	b, err := json.MarshalIndent(r, "", "   ")
 	if err != nil {
-		return fmt.Sprintf("<error creating config string: %s>", err)
+		return fmt.Sprintf("creating config string: %s", err)
 	}
 	return string(b)
 }
@@ -217,7 +217,7 @@ func (r *recipeWater) PrettyPrint() string {
 func (r *recipeCook) String() string {
 	b, err := yaml.Marshal(r)
 	if err != nil {
-		return fmt.Sprintf("<error creating config string: %s>", err)
+		return fmt.Sprintf("creating config string: %s", err)
 	}
 	return string(b)
 }
@@ -225,7 +225,7 @@ func (r *recipeCook) String() string {
 func (r *recipeCook) PrettyPrint() string {
 	b, err := json.MarshalIndent(r, "", "   ")
 	if err != nil {
-		return fmt.Sprintf("<error creating config string: %s>", err)
+		return fmt.Sprintf("creating config string: %s", err)
 	}
 	return string(b)
 }
