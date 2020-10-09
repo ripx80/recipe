@@ -5,6 +5,11 @@ At the moment only one external source is implemented.
 
 - M3: maische-malz-und-mehr.de
 
+## M3
+
+Only normal recipies supported. Not scaled recipies on M3 because they change the type of values so the parser is confused.
+Use the internal scale to change the water or the yield.
+
 ## m3c
 
 Converter for M3 recipes into brewman format.
