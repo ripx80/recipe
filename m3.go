@@ -169,19 +169,19 @@ func (rm *M3) UnmarshalJSON(data []byte) error {
 	conv.keys = map[string]string{"Name": "Malz%d", "Amount": "Malz%d_Menge", "Unit": "Malz%d_Einheit"}
 	rm.Malts, err = conv.Malts()
 	if err != nil {
-		return err
+		return fmt.Errorf("converting malts: %w", err)
 	}
 
 	conv.keys = map[string]string{"Temperatur": "Infusion_Rasttemperatur%d", "Time": "Infusion_Rastzeit%d"}
 	rm.Rests, err = conv.Rests()
 	if err != nil {
-		return err
+		return fmt.Errorf("converting rests: %w", err)
 	}
 
 	conv.keys = map[string]string{"Name": "Hopfen_VWH_%d_Sorte", "Amount": "Hopfen_VWH_%d_Menge", "Alpha": "Hopfen_VWH_%d_alpha"}
 	rm.FontHops, err = conv.FontHop()
 	if err != nil {
-		return err
+		return fmt.Errorf("converting fonthops: %w", err)
 	}
 
 	conv.keys = map[string]string{"Name": "Hopfen_%d_Sorte", "Amount": "Hopfen_%d_Menge", "Time": "Hopfen_%d_Kochzeit", "Alpha": "Hopfen_%d_alpha"}
@@ -193,25 +193,25 @@ func (rm *M3) UnmarshalJSON(data []byte) error {
 	conv.keys = map[string]string{"Name": "Hopfen_%d_Sorte", "Amount": "Hopfen_%d_Menge", "Time": "Hopfen_%d_Kochzeit", "Alpha": "Hopfen_%d_alpha"}
 	rm.Whirlpool, err = conv.WhirlpoolHop()
 	if err != nil {
-		return err
+		return fmt.Errorf("converting whirlpool hop: %w", err)
 	}
 
 	conv.keys = map[string]string{"Name": "WeitereZutat_Wuerze_%d_Name", "Amount": "WeitereZutat_Wuerze_%d_Menge", "Unit": "WeitereZutat_Wuerze_%d_Einheit", "Time": "WeitereZutat_Wuerze_%d_Kochzeit"}
 	rm.Ingredients, err = conv.RecipeTimeUnits()
 	if err != nil {
-		return err
+		return fmt.Errorf("converting recipe time units: %w", err)
 	}
 
 	conv.keys = map[string]string{"Name": "WeitereZutat_Gaerung_%d_Name", "Amount": "WeitereZutat_Gaerung_%d_Menge", "Unit": "WeitereZutat_Gaerung_%d_Einheit"}
 	rm.Fermentation.Ingredients, err = conv.Ingredient()
 	if err != nil {
-		return err
+		return fmt.Errorf("converting ingredients: %w", err)
 	}
 
 	conv.keys = map[string]string{"Name": "Stopfhopfen_%d_Sorte", "Amount": "Stopfhopfen_%d_Menge"}
 	rm.Fermentation.Hops, err = conv.FermentationHop()
 	if err != nil {
-		return err
+		return fmt.Errorf("converting fermentation hop: %w", err)
 	}
 
 	return nil
