@@ -156,9 +156,9 @@ func (rm *M3) UnmarshalJSON(data []byte) error {
 		return err
 	}
 
-	if keyExists(result, "Dekoktion_0_Volumen") {
-		return fmt.Errorf("Dekoktion not supported")
-	}
+	// if keyExists(result, "Dekoktion_0_Volumen") {
+	// 	return fmt.Errorf("Dekoktion not supported")
+	// }
 	conv := &converter{}
 	// add a test file for this
 	// in this field are different values. normalize...
@@ -173,10 +173,11 @@ func (rm *M3) UnmarshalJSON(data []byte) error {
 	rm.Temperatur = rm.Temperatur / float64(len(x))
 
 	// sometimes values are a invalid json like "" so handle it here
-	if result["Nachguss"].(string) == "" {
+	if keyExists(result, "Nachguss") && result["Nachguss"].(string) == "" {
 		result["Nachguss"] = "0"
 	}
-	if result["Infusion_Hauptguss"].(string) == "" {
+
+	if keyExists(result, "Infusion_Hauptguss") && result["Infusion_Hauptguss"].(string) == "" {
 		result["Infusion_Hauptguss"] = "0"
 	}
 	conv.cmap = result
