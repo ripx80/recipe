@@ -60,13 +60,13 @@ func getUserComments(recipeID int) (*[]recipe.Comment, error) {
 		return nil, err
 	}
 
-	doc.Find("div.userkommentare").Each(func(i int, s *goquery.Selection) {
-		child := s.Find("p").Contents()
-		name := strip.StripTags(child.Eq(1).Text())
-		datetime := strings.Split(glue.RmChar(strip.StripTags(child.Eq(2).Text()), " \n"), "-")
-		comment := strings.TrimSpace(strings.ReplaceAll(strip.StripTags(s.Find("p").Next().Text()), "\n", " "))
+	doc.Find("div.nutzerKommentarBox").Each(func(i int, s *goquery.Selection) {
+		child := s.Find("span").Contents()
+		name := strip.StripTags(child.Eq(0).Text())
+		datetime := strings.Split(glue.RmChar(strip.StripTags(child.Eq(1).Text()), " \n"), ",")
+		comment := s.Find("div.kommentar_text").Contents().Text()
 		comments = append(comments, recipe.Comment{
-			Name:    name[5:],
+			Name:    name,
 			Date:    datetime[0],
 			Comment: comment,
 		})

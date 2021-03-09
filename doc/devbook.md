@@ -15,3 +15,4 @@
 ### Issues
 
 - [x] (B) fix broken recipes and invalid json
+- [x] (B) fix broken user comments, change the structure of the site
