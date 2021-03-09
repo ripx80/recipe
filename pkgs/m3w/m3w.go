@@ -118,6 +118,10 @@ func Down(m3url, outdir string) {
 		if glue.InSlice(lid, keymap) {
 			continue
 		}
+		//exclude broken recipes
+		if lid == 786 || lid == 1240 || lid == 676 {
+			continue
+		}
 
 		//get json export
 		resp, err := http.Get(fmt.Sprintf("%s/export.php?id=%d", m3url, lid))
@@ -147,7 +151,7 @@ func Down(m3url, outdir string) {
 		}
 
 		fn := strings.ReplaceAll(recipe.Global.Name, " ", "_")
-		fn = glue.RmChar(fn, "?%$&#-`'().")
+		fn = glue.RmChar(fn, "?%$&#-`'()./<>")
 
 		//get comments
 		c, err := getUserComments(lid)
