@@ -1,12 +1,17 @@
 # Devbook
 
+- 786, 1240 broken recipes, excluded from download
+
 ## Roadmap
 
 ### v0.1
 
+- [x] (I) add changelog
 - [ ] (F) round values of scaled recipes
 - [ ] (I) write tests
 - [ ] (I) add github workflow
 - [ ] (I) add documentation
-- [ ] (I) remove subcmd available now in brewman
-- [ ] (I) add changelog
+
+### Issues
+
+- [x] (B) fix broken recipes and invalid json
