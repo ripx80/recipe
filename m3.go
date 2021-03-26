@@ -173,13 +173,27 @@ func (rm *M3) UnmarshalJSON(data []byte) error {
 	rm.Temperatur = rm.Temperatur / float64(len(x))
 
 	// sometimes values are a invalid json like "" so handle it here
-	if keyExists(result, "Nachguss") && result["Nachguss"].(string) == "" {
-		result["Nachguss"] = "0"
+
+	if keyExists(result, "Nachguss") {
+		switch result["Nachguss"].(type) {
+		//case float64:
+		case string:
+			if result["Nachguss"].(string) == "" {
+				result["Nachguss"] = "0"
+			}
+		}
 	}
 
-	if keyExists(result, "Infusion_Hauptguss") && result["Infusion_Hauptguss"].(string) == "" {
-		result["Infusion_Hauptguss"] = "0"
+	if keyExists(result, "Infusion_Hauptguss") {
+		switch result["Infusion_Hauptguss"].(type) {
+		//case float64:
+		case string:
+			if result["Infusion_Hauptguss"].(string) == "" {
+				result["Infusion_Hauptguss"] = "0"
+			}
+		}
 	}
+
 	conv.cmap = result
 	conv.keys = map[string]string{"Name": "Malz%d", "Amount": "Malz%d_Menge", "Unit": "Malz%d_Einheit"}
 	rm.Malts, err = conv.Malts()
@@ -425,8 +439,11 @@ func (con *converter) BasicHop() (*Hop, error) {
 		return nil, fmt.Errorf(fmt.Sprintf("Alpha missing: %s", k))
 	}
 
-	if hop.Alpha, err = strconv.ParseFloat(con.cmap[k].(string), 64); err != nil {
-		return nil, fmt.Errorf("Parsing Alpha error: %v", err)
+	switch con.cmap[k].(type) {
+	case string:
+		if hop.Alpha, err = strconv.ParseFloat(con.cmap[k].(string), 64); err != nil {
+			return nil, fmt.Errorf("Parsing Alpha error: %v", err)
+		}
 	}
 	return hop, nil
 }
