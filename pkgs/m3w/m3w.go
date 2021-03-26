@@ -60,13 +60,13 @@ func getUserComments(recipeID int) (*[]recipe.Comment, error) {
 		return nil, err
 	}
 
-	doc.Find("div.userkommentare").Each(func(i int, s *goquery.Selection) {
-		child := s.Find("p").Contents()
-		name := strip.StripTags(child.Eq(1).Text())
-		datetime := strings.Split(glue.RmChar(strip.StripTags(child.Eq(2).Text()), " \n"), "-")
-		comment := strings.TrimSpace(strings.ReplaceAll(strip.StripTags(s.Find("p").Next().Text()), "\n", " "))
+	doc.Find("div.nutzerKommentarBox").Each(func(i int, s *goquery.Selection) {
+		child := s.Find("span").Contents()
+		name := strip.StripTags(child.Eq(0).Text())
+		datetime := strings.Split(glue.RmChar(strip.StripTags(child.Eq(1).Text()), " \n"), ",")
+		comment := s.Find("div.kommentar_text").Contents().Text()
 		comments = append(comments, recipe.Comment{
-			Name:    name[5:],
+			Name:    name,
 			Date:    datetime[0],
 			Comment: comment,
 		})
@@ -118,6 +118,10 @@ func Down(m3url, outdir string) {
 		if glue.InSlice(lid, keymap) {
 			continue
 		}
+		//exclude broken recipes
+		if lid == 786 || lid == 1240 || lid == 676 {
+			continue
+		}
 
 		//get json export
 		resp, err := http.Get(fmt.Sprintf("%s/export.php?id=%d", m3url, lid))
@@ -147,7 +151,7 @@ func Down(m3url, outdir string) {
 		}
 
 		fn := strings.ReplaceAll(recipe.Global.Name, " ", "_")
-		fn = glue.RmChar(fn, "?%$&#-`'().")
+		fn = glue.RmChar(fn, "?%$&#-`'()./<>")
 
 		//get comments
 		c, err := getUserComments(lid)

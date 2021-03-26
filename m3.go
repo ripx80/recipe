@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"regexp"
 	"strconv"
+	"strings"
 )
 
 type converter struct {
@@ -38,17 +39,19 @@ M3 implements Maische-Malz-und-Mehr recipies
 type M3 struct {
 	m3Global
 
-	MainCast      float64 `json:"Infusion_Hauptguss,string"`
+	//MainCast      float64 `json:"Infusion_Hauptguss,string"`
 	InTemperatur  float64 `json:"Infusion_Einmaischtemperatur"`
 	OutTemperatur float64 `json:"Abmaischtemperatur,string"`
-	Grouting      float64 `json:"Nachguss,string"`
-	Time          int     `json:"Kochzeit_Wuerze,string"`
-	Yeast         string  `json:"Hefe"`
-	EndDegree     float64 `json:"Endvergaerungsgrad,string"`
-	Carbonation   float64 `json:"Karbonisierung,string"`
-	Annotation    string  `json:"Anmerkung_Autor"`
+	//Grouting      float64 `json:"Nachguss,string"`
+	Time        int     `json:"Kochzeit_Wuerze,string"`
+	Yeast       string  `json:"Hefe"`
+	EndDegree   float64 `json:"Endvergaerungsgrad,string"`
+	Carbonation float64 `json:"Karbonisierung,string"`
+	Annotation  string  `json:"Anmerkung_Autor"`
 
 	Temperatur   float64
+	MainCast     float64
+	Grouting     float64
 	Malts        []Malt
 	Rests        []Rest
 	FontHops     []Hop
@@ -64,7 +67,7 @@ Load read the json file from m3
 func (rm *M3) Load(s string) (*Recipe, error) {
 	err := json.Unmarshal([]byte(s), rm)
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("Recipe is broken: %w", err)
 	}
 	recipe := &Recipe{}
 	//recipe.original = s
@@ -153,6 +156,9 @@ func (rm *M3) UnmarshalJSON(data []byte) error {
 		return err
 	}
 
+	// if keyExists(result, "Dekoktion_0_Volumen") {
+	// 	return fmt.Errorf("Dekoktion not supported")
+	// }
 	conv := &converter{}
 	// add a test file for this
 	// in this field are different values. normalize...
@@ -165,6 +171,15 @@ func (rm *M3) UnmarshalJSON(data []byte) error {
 		rm.Temperatur += f
 	}
 	rm.Temperatur = rm.Temperatur / float64(len(x))
+
+	// sometimes values are a invalid json like "" so handle it here
+	if keyExists(result, "Nachguss") && result["Nachguss"].(string) == "" {
+		result["Nachguss"] = "0"
+	}
+
+	if keyExists(result, "Infusion_Hauptguss") && result["Infusion_Hauptguss"].(string) == "" {
+		result["Infusion_Hauptguss"] = "0"
+	}
 	conv.cmap = result
 	conv.keys = map[string]string{"Name": "Malz%d", "Amount": "Malz%d_Menge", "Unit": "Malz%d_Einheit"}
 	rm.Malts, err = conv.Malts()
@@ -239,7 +254,8 @@ func (con *converter) RecipeUnit() (*recipeUnit, error) {
 
 	switch con.cmap[k].(type) {
 	case string:
-		if recipeUnit.Amount, err = strconv.ParseFloat(con.cmap[k].(string), 64); err != nil {
+		// some values has some whitespaces. cut them
+		if recipeUnit.Amount, err = strconv.ParseFloat(strings.Join(strings.Fields(con.cmap[k].(string)), ""), 64); err != nil {
 			return nil, fmt.Errorf("Parsing Amount error: %s %v", k, err)
 		}
 	case float64:
@@ -365,11 +381,18 @@ func (con *converter) Rests() ([]Rest, error) {
 		}
 
 		if con.cmap[k].(string) == "" {
-			return nil, fmt.Errorf(fmt.Sprintf("Rest value is empty: %s", k))
+			// we accept empty values now
+			//return nil, fmt.Errorf(fmt.Sprintf("Rest value is empty: %s", k))
+			con.cmap[k] = "0"
 		}
-
-		if rest.Time, err = strconv.Atoi(con.cmap[k].(string)); err != nil {
-			return nil, fmt.Errorf("Parsing Amount error: %s %v", k, err)
+		// value type is always a string. some values are int and some are floats
+		rest.Time, err = strconv.Atoi(con.cmap[k].(string))
+		if err != nil {
+			f, err := strconv.ParseFloat(con.cmap[k].(string), 64)
+			if err != nil {
+				return nil, fmt.Errorf("Parsing Amount error: %s %v. Not a int or float", k, err)
+			}
+			rest.Time = int(f)
 		}
 
 		k = fmt.Sprintf(con.keys["Temperatur"], con.pos)
