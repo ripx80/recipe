@@ -5,6 +5,8 @@ At the moment only one external source is implemented.
 
 - M3: maische-malz-und-mehr.de
 
+*they change the site and the json structure this repo handled with. only exists for blueprinting...*
+
 ## M3
 
 Only normal recipies supported. Not scaled recipies on M3 because they change the type of values so the parser is confused.
